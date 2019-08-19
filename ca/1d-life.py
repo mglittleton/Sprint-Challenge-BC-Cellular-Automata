@@ -11,11 +11,19 @@ def get_new_value(old_gen, old_automata):
     for i in range(SQ_NUM):
         index = new_gen * SQ_NUM + i
         prev_row = index - SQ_NUM
-        neighbor_l = old_automata[prev_row - 1] if (prev_row - 1) % SQ_NUM != (SQ_NUM - 1) else 0
-        neighbor_r = old_automata[prev_row + 1] if (prev_row + 1) % SQ_NUM != 0 else 0
+        neighbor_l = old_automata[prev_row -
+                                  1] if (prev_row - 1) % SQ_NUM != (SQ_NUM - 1) else 0
+        neighbor_r = old_automata[prev_row +
+                                  1] if (prev_row + 1) % SQ_NUM != 0 else 0
         neighbor_c = old_automata[prev_row]
 
-        new_automata[index] = neighbor_c
+        if bool(neighbor_l == 1) ^ bool(neighbor_r == 1):
+            new_automata[index] = 1
+        elif neighbor_l == 0 and neighbor_r == 0:
+            new_automata[index] = neighbor_c
+        elif neighbor_l == 1 and neighbor_r == 1:
+            new_automata[index] = 0 if neighbor_c == 1 else 1
+
     return new_automata
 
 
